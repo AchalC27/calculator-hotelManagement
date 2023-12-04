@@ -1,81 +1,72 @@
 from tkinter import*
 import tkinter.messagebox as tmsg
-import data
-import math
-import time
+from data import*
 from math import*
 
 def click(value):
-    ex =entryField.get()
-    answer=''
+    current_expression =entryField.get()
+    result=''
     
-    try:
-        if value == 'C':
-            ex=entryField.get()
-            ex=ex[0:len(ex)-1]
-            entryField.delete(0,END)
-            entryField.insert(0,ex)
+    if value == 'C':
+        current_expression = current_expression[:-1]
             
-        elif value == 'clr':
-            entryField.delete(0,END)
+    elif value == 'clr':
+        entryField.delete(0,END)
             
-        elif value == '√':
-            answer = math.sqrt(eval(ex))
+    elif value == '√':
+        result = square_root(float(current_expression))
         
-        elif value == 'pi':
-            answer= math.pi
+    elif value == 'pi':
+        result= pi()
             
-        elif value == 'cos θ':
-            answer=math.cos(math.radians(eval(ex)))
+    elif value == 'cos θ':
+        result = cos(float(current_expression))
             
-        elif value == 'sin θ':
-            answer=math.sin(math.radians(eval(ex)))
+    elif value == 'sin θ':
+        result = sin(float(current_expression))
             
-        elif value == 'tan θ':
-            answer=math.tan(math.radians(eval(ex)))
+    elif value == 'tan θ':
+        result = tan(float(current_expression))
             
-        elif value == 'x\u02b8':
-            entryField.insert(END, '**')
+    elif value == 'x\u02b8':
+        result = power(eval(current_expression), value)
             
-        elif value == 'x\u00B2':
-            answer = eval(ex) ** 2
+    elif value == 'x\u00B2':
+        result = power(eval(current_expression), 2)
         
-        elif value == 'x\u00B3':
-            answer = eval(ex) ** 3
+    elif value == 'x\u00B3':
+        result = power(eval(current_expression), 3)
             
-        elif value == 'log':
-            answer = math.log2(eval(ex))
+    elif value == 'log':
+        result = log(float(current_expression))
             
-        elif value == 'log 10':
-            answer = math.log10(eval(ex))
+    elif value == 'log 10':
+        result = log10(float(current_expression))
             
-        elif value == 'cosh':
-            answer = math.cosh(eval(ex))
+    elif value == 'cosh':
+        result = cosh(float(current_expression))
             
-        elif value == 'sinh':
-            answer = math.cosh(eval(ex))
+    elif value == 'sinh':
+        result = sinh(float(current_expression))
             
-        elif value == 'tanh':
-            answer = math.cosh(eval(ex))
+    elif value == 'tanh':
+        result = tanh(float(current_expression))
             
-        elif value == chr(8731):
-            answer = eval(ex)**(1/3)
+    elif value == chr(8731):
+        result = power(eval(current_expression), 1/3)
             
-        elif value == 'x!':
-            answer = math.factorial(ex)
+    elif value == 'x!':
+        result = factorial(current_expression)
             
-        elif value == '=':
-            answer = eval(ex)
+    elif value == '=':
+        result = calculate(current_expression)
             
-        else:
-            entryField.insert(END,value)
-            return
-        
-    except SyntaxError :
-        pass
+    else:
+        entryField.insert(END,value)
+        return
        
     entryField.delete(0,END)
-    entryField.insert(0,answer)
+    entryField.insert(0,result)
         
 root = Tk()
 canvas_width = 555
@@ -91,14 +82,14 @@ entryField.grid(row=0,column=0,columnspan=6)
 
 rowvalue=1
 columnvalue=0
-button_text_list = [ "7", '8', "9", "*", "cos", "(",
+list = [ "7", '8', "9", "*", "cos", "(",
                     "4", '5', "6", "-", "sin", ")",
                     "1", '2', "3", "+", "tan", "%",
                     ".", '0', "/", "√", "log", "pi",
                     "x\u00B3", 'x\u00B2', chr(8731), "x\u02b8", "log10", "x!",
                     "sinh", 'cosh', "tanh", "C", "clr", "="]
 
-for i in button_text_list :
+for i in list :
     button= Button(root, font='lucida 15 bold', padx=20, pady=20, borderwidth=3, fg='black', bg='light blue', width=3, activebackground='blue',text=i, command=lambda button=i: click(button) )
     button.grid(row=rowvalue,column=columnvalue)
     columnvalue+=1
